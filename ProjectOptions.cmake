@@ -7,7 +7,7 @@ include(CheckCXXCompilerFlag)
 include(CheckCXXSourceCompiles)
 
 
-macro(myproject_supports_sanitizers)
+macro(nxv_supports_sanitizers)
   # Emscripten doesn't support sanitizers
   if(EMSCRIPTEN)
     set(SUPPORTS_UBSAN OFF)
@@ -58,110 +58,110 @@ macro(myproject_supports_sanitizers)
   endif()
 endmacro()
 
-macro(myproject_setup_options)
-  option(myproject_ENABLE_HARDENING "Enable hardening" ON)
-  option(myproject_ENABLE_COVERAGE "Enable coverage reporting" OFF)
+macro(nxv_setup_options)
+  option(nxv_ENABLE_HARDENING "Enable hardening" ON)
+  option(nxv_ENABLE_COVERAGE "Enable coverage reporting" OFF)
   cmake_dependent_option(
-    myproject_ENABLE_GLOBAL_HARDENING
+    nxv_ENABLE_GLOBAL_HARDENING
     "Attempt to push hardening options to built dependencies"
     ON
-    myproject_ENABLE_HARDENING
+    nxv_ENABLE_HARDENING
     OFF)
 
-  myproject_supports_sanitizers()
+  nxv_supports_sanitizers()
 
-  if(NOT PROJECT_IS_TOP_LEVEL OR myproject_PACKAGING_MAINTAINER_MODE)
-    option(myproject_ENABLE_IPO "Enable IPO/LTO" OFF)
-    option(myproject_WARNINGS_AS_ERRORS "Treat Warnings As Errors" OFF)
-    option(myproject_ENABLE_SANITIZER_ADDRESS "Enable address sanitizer" OFF)
-    option(myproject_ENABLE_SANITIZER_LEAK "Enable leak sanitizer" OFF)
-    option(myproject_ENABLE_SANITIZER_UNDEFINED "Enable undefined sanitizer" OFF)
-    option(myproject_ENABLE_SANITIZER_THREAD "Enable thread sanitizer" OFF)
-    option(myproject_ENABLE_SANITIZER_MEMORY "Enable memory sanitizer" OFF)
-    option(myproject_ENABLE_UNITY_BUILD "Enable unity builds" OFF)
-    option(myproject_ENABLE_CLANG_TIDY "Enable clang-tidy" OFF)
-    option(myproject_ENABLE_CPPCHECK "Enable cpp-check analysis" OFF)
-    option(myproject_ENABLE_PCH "Enable precompiled headers" OFF)
-    option(myproject_ENABLE_CACHE "Enable ccache" OFF)
+  if(NOT PROJECT_IS_TOP_LEVEL OR nxv_PACKAGING_MAINTAINER_MODE)
+    option(nxv_ENABLE_IPO "Enable IPO/LTO" OFF)
+    option(nxv_WARNINGS_AS_ERRORS "Treat Warnings As Errors" OFF)
+    option(nxv_ENABLE_SANITIZER_ADDRESS "Enable address sanitizer" OFF)
+    option(nxv_ENABLE_SANITIZER_LEAK "Enable leak sanitizer" OFF)
+    option(nxv_ENABLE_SANITIZER_UNDEFINED "Enable undefined sanitizer" OFF)
+    option(nxv_ENABLE_SANITIZER_THREAD "Enable thread sanitizer" OFF)
+    option(nxv_ENABLE_SANITIZER_MEMORY "Enable memory sanitizer" OFF)
+    option(nxv_ENABLE_UNITY_BUILD "Enable unity builds" OFF)
+    option(nxv_ENABLE_CLANG_TIDY "Enable clang-tidy" OFF)
+    option(nxv_ENABLE_CPPCHECK "Enable cpp-check analysis" OFF)
+    option(nxv_ENABLE_PCH "Enable precompiled headers" OFF)
+    option(nxv_ENABLE_CACHE "Enable ccache" OFF)
   else()
-    option(myproject_ENABLE_IPO "Enable IPO/LTO" ON)
-    option(myproject_WARNINGS_AS_ERRORS "Treat Warnings As Errors" ON)
-    option(myproject_ENABLE_SANITIZER_ADDRESS "Enable address sanitizer" ${SUPPORTS_ASAN})
-    option(myproject_ENABLE_SANITIZER_LEAK "Enable leak sanitizer" OFF)
-    option(myproject_ENABLE_SANITIZER_UNDEFINED "Enable undefined sanitizer" ${SUPPORTS_UBSAN})
-    option(myproject_ENABLE_SANITIZER_THREAD "Enable thread sanitizer" OFF)
-    option(myproject_ENABLE_SANITIZER_MEMORY "Enable memory sanitizer" OFF)
-    option(myproject_ENABLE_UNITY_BUILD "Enable unity builds" OFF)
-    option(myproject_ENABLE_CLANG_TIDY "Enable clang-tidy" ON)
-    option(myproject_ENABLE_CPPCHECK "Enable cpp-check analysis" ON)
-    option(myproject_ENABLE_PCH "Enable precompiled headers" OFF)
-    option(myproject_ENABLE_CACHE "Enable ccache" ON)
+    option(nxv_ENABLE_IPO "Enable IPO/LTO" ON)
+    option(nxv_WARNINGS_AS_ERRORS "Treat Warnings As Errors" ON)
+    option(nxv_ENABLE_SANITIZER_ADDRESS "Enable address sanitizer" ${SUPPORTS_ASAN})
+    option(nxv_ENABLE_SANITIZER_LEAK "Enable leak sanitizer" OFF)
+    option(nxv_ENABLE_SANITIZER_UNDEFINED "Enable undefined sanitizer" ${SUPPORTS_UBSAN})
+    option(nxv_ENABLE_SANITIZER_THREAD "Enable thread sanitizer" OFF)
+    option(nxv_ENABLE_SANITIZER_MEMORY "Enable memory sanitizer" OFF)
+    option(nxv_ENABLE_UNITY_BUILD "Enable unity builds" OFF)
+    option(nxv_ENABLE_CLANG_TIDY "Enable clang-tidy" ON)
+    option(nxv_ENABLE_CPPCHECK "Enable cpp-check analysis" ON)
+    option(nxv_ENABLE_PCH "Enable precompiled headers" OFF)
+    option(nxv_ENABLE_CACHE "Enable ccache" ON)
   endif()
 
   if(NOT PROJECT_IS_TOP_LEVEL)
     mark_as_advanced(
-      myproject_ENABLE_IPO
-      myproject_WARNINGS_AS_ERRORS
-      myproject_ENABLE_SANITIZER_ADDRESS
-      myproject_ENABLE_SANITIZER_LEAK
-      myproject_ENABLE_SANITIZER_UNDEFINED
-      myproject_ENABLE_SANITIZER_THREAD
-      myproject_ENABLE_SANITIZER_MEMORY
-      myproject_ENABLE_UNITY_BUILD
-      myproject_ENABLE_CLANG_TIDY
-      myproject_ENABLE_CPPCHECK
-      myproject_ENABLE_COVERAGE
-      myproject_ENABLE_PCH
-      myproject_ENABLE_CACHE)
+      nxv_ENABLE_IPO
+      nxv_WARNINGS_AS_ERRORS
+      nxv_ENABLE_SANITIZER_ADDRESS
+      nxv_ENABLE_SANITIZER_LEAK
+      nxv_ENABLE_SANITIZER_UNDEFINED
+      nxv_ENABLE_SANITIZER_THREAD
+      nxv_ENABLE_SANITIZER_MEMORY
+      nxv_ENABLE_UNITY_BUILD
+      nxv_ENABLE_CLANG_TIDY
+      nxv_ENABLE_CPPCHECK
+      nxv_ENABLE_COVERAGE
+      nxv_ENABLE_PCH
+      nxv_ENABLE_CACHE)
   endif()
 
-  myproject_check_libfuzzer_support(LIBFUZZER_SUPPORTED)
-  if(LIBFUZZER_SUPPORTED AND (myproject_ENABLE_SANITIZER_ADDRESS OR myproject_ENABLE_SANITIZER_THREAD OR myproject_ENABLE_SANITIZER_UNDEFINED))
+  nxv_check_libfuzzer_support(LIBFUZZER_SUPPORTED)
+  if(LIBFUZZER_SUPPORTED AND (nxv_ENABLE_SANITIZER_ADDRESS OR nxv_ENABLE_SANITIZER_THREAD OR nxv_ENABLE_SANITIZER_UNDEFINED))
     set(DEFAULT_FUZZER ON)
   else()
     set(DEFAULT_FUZZER OFF)
   endif()
 
-  option(myproject_BUILD_FUZZ_TESTS "Enable fuzz testing executable" ${DEFAULT_FUZZER})
+  option(nxv_BUILD_FUZZ_TESTS "Enable fuzz testing executable" ${DEFAULT_FUZZER})
 
 endmacro()
 
-macro(myproject_global_options)
-  if(myproject_ENABLE_IPO)
+macro(nxv_global_options)
+  if(nxv_ENABLE_IPO)
     include(cmake/InterproceduralOptimization.cmake)
-    myproject_enable_ipo()
+    nxv_enable_ipo()
   endif()
 
-  myproject_supports_sanitizers()
+  nxv_supports_sanitizers()
 
-  if(myproject_ENABLE_HARDENING AND myproject_ENABLE_GLOBAL_HARDENING)
+  if(nxv_ENABLE_HARDENING AND nxv_ENABLE_GLOBAL_HARDENING)
     include(cmake/Hardening.cmake)
     if(NOT SUPPORTS_UBSAN 
-       OR myproject_ENABLE_SANITIZER_UNDEFINED
-       OR myproject_ENABLE_SANITIZER_ADDRESS
-       OR myproject_ENABLE_SANITIZER_THREAD
-       OR myproject_ENABLE_SANITIZER_LEAK)
+       OR nxv_ENABLE_SANITIZER_UNDEFINED
+       OR nxv_ENABLE_SANITIZER_ADDRESS
+       OR nxv_ENABLE_SANITIZER_THREAD
+       OR nxv_ENABLE_SANITIZER_LEAK)
       set(ENABLE_UBSAN_MINIMAL_RUNTIME FALSE)
     else()
       set(ENABLE_UBSAN_MINIMAL_RUNTIME TRUE)
     endif()
-    message("${myproject_ENABLE_HARDENING} ${ENABLE_UBSAN_MINIMAL_RUNTIME} ${myproject_ENABLE_SANITIZER_UNDEFINED}")
-    myproject_enable_hardening(myproject_options ON ${ENABLE_UBSAN_MINIMAL_RUNTIME})
+    message("${nxv_ENABLE_HARDENING} ${ENABLE_UBSAN_MINIMAL_RUNTIME} ${nxv_ENABLE_SANITIZER_UNDEFINED}")
+    nxv_enable_hardening(nxv_options ON ${ENABLE_UBSAN_MINIMAL_RUNTIME})
   endif()
 endmacro()
 
-macro(myproject_local_options)
+macro(nxv_local_options)
   if(PROJECT_IS_TOP_LEVEL)
     include(cmake/StandardProjectSettings.cmake)
   endif()
 
-  add_library(myproject_warnings INTERFACE)
-  add_library(myproject_options INTERFACE)
+  add_library(nxv_warnings INTERFACE)
+  add_library(nxv_options INTERFACE)
 
   include(cmake/CompilerWarnings.cmake)
-  myproject_set_project_warnings(
-    myproject_warnings
-    ${myproject_WARNINGS_AS_ERRORS}
+  nxv_set_project_warnings(
+    nxv_warnings
+    ${nxv_WARNINGS_AS_ERRORS}
     ""
     ""
     ""
@@ -172,66 +172,66 @@ macro(myproject_local_options)
 
   if(NOT EMSCRIPTEN)
     include(cmake/Sanitizers.cmake)
-    myproject_enable_sanitizers(
-      myproject_options
-      ${myproject_ENABLE_SANITIZER_ADDRESS}
-      ${myproject_ENABLE_SANITIZER_LEAK}
-      ${myproject_ENABLE_SANITIZER_UNDEFINED}
-      ${myproject_ENABLE_SANITIZER_THREAD}
-      ${myproject_ENABLE_SANITIZER_MEMORY})
+    nxv_enable_sanitizers(
+      nxv_options
+      ${nxv_ENABLE_SANITIZER_ADDRESS}
+      ${nxv_ENABLE_SANITIZER_LEAK}
+      ${nxv_ENABLE_SANITIZER_UNDEFINED}
+      ${nxv_ENABLE_SANITIZER_THREAD}
+      ${nxv_ENABLE_SANITIZER_MEMORY})
   endif()
 
-  set_target_properties(myproject_options PROPERTIES UNITY_BUILD ${myproject_ENABLE_UNITY_BUILD})
+  set_target_properties(nxv_options PROPERTIES UNITY_BUILD ${nxv_ENABLE_UNITY_BUILD})
 
-  if(myproject_ENABLE_PCH)
+  if(nxv_ENABLE_PCH)
     target_precompile_headers(
-      myproject_options
+      nxv_options
       INTERFACE
       <vector>
       <string>
       <utility>)
   endif()
 
-  if(myproject_ENABLE_CACHE)
+  if(nxv_ENABLE_CACHE)
     include(cmake/Cache.cmake)
-    myproject_enable_cache()
+    nxv_enable_cache()
   endif()
 
   include(cmake/StaticAnalyzers.cmake)
-  if(myproject_ENABLE_CLANG_TIDY)
-    myproject_enable_clang_tidy(myproject_options ${myproject_WARNINGS_AS_ERRORS})
+  if(nxv_ENABLE_CLANG_TIDY)
+    nxv_enable_clang_tidy(nxv_options ${nxv_WARNINGS_AS_ERRORS})
   endif()
 
-  if(myproject_ENABLE_CPPCHECK)
-    myproject_enable_cppcheck(${myproject_WARNINGS_AS_ERRORS} "" # override cppcheck options
+  if(nxv_ENABLE_CPPCHECK)
+    nxv_enable_cppcheck(${nxv_WARNINGS_AS_ERRORS} "" # override cppcheck options
     )
   endif()
 
-  if(myproject_ENABLE_COVERAGE)
+  if(nxv_ENABLE_COVERAGE)
     include(cmake/Tests.cmake)
-    myproject_enable_coverage(myproject_options)
+    nxv_enable_coverage(nxv_options)
   endif()
 
-  if(myproject_WARNINGS_AS_ERRORS)
+  if(nxv_WARNINGS_AS_ERRORS)
     check_cxx_compiler_flag("-Wl,--fatal-warnings" LINKER_FATAL_WARNINGS)
     if(LINKER_FATAL_WARNINGS)
       # This is not working consistently, so disabling for now
-      # target_link_options(myproject_options INTERFACE -Wl,--fatal-warnings)
+      # target_link_options(nxv_options INTERFACE -Wl,--fatal-warnings)
     endif()
   endif()
 
-  if(myproject_ENABLE_HARDENING AND NOT myproject_ENABLE_GLOBAL_HARDENING)
+  if(nxv_ENABLE_HARDENING AND NOT nxv_ENABLE_GLOBAL_HARDENING)
     include(cmake/Hardening.cmake)
     if(NOT SUPPORTS_UBSAN 
-       OR myproject_ENABLE_SANITIZER_UNDEFINED
-       OR myproject_ENABLE_SANITIZER_ADDRESS
-       OR myproject_ENABLE_SANITIZER_THREAD
-       OR myproject_ENABLE_SANITIZER_LEAK)
+       OR nxv_ENABLE_SANITIZER_UNDEFINED
+       OR nxv_ENABLE_SANITIZER_ADDRESS
+       OR nxv_ENABLE_SANITIZER_THREAD
+       OR nxv_ENABLE_SANITIZER_LEAK)
       set(ENABLE_UBSAN_MINIMAL_RUNTIME FALSE)
     else()
       set(ENABLE_UBSAN_MINIMAL_RUNTIME TRUE)
     endif()
-    myproject_enable_hardening(myproject_options OFF ${ENABLE_UBSAN_MINIMAL_RUNTIME})
+    nxv_enable_hardening(nxv_options OFF ${ENABLE_UBSAN_MINIMAL_RUNTIME})
   endif()
 
 endmacro()
