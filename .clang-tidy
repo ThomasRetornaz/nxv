@@ -1,5 +1,6 @@
 ---
 Checks: "*,
+        -json*,
         -abseil-*,
         -altera-*,
         -android-*,
@@ -15,7 +16,9 @@ Checks: "*,
         -misc-non-private-member-variables-in-classes,
         -misc-no-recursion,
         -misc-use-anonymous-namespace,
-        -misc-use-internal-linkage
+        -misc-use-internal-linkage,
+        -python*,
+        -cppcoreguidelines-cstyle-cast,
 "
 WarningsAsErrors: ''
 HeaderFilterRegex: ''
@@ -26,6 +29,8 @@ CheckOptions:
     value: 'x|y|z'
   - key: readability-identifier-length.IgnoredParameterNames
     value: 'x|y|z'
+  - key: readability-function-cognitive-complexity.IgnoreMacros
+    value: true
 
 
 
