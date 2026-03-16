@@ -37,23 +37,23 @@ jobs:
           # Just copy it to dist/ for GitHub Pages action
           cp -r build/web-dist dist
 
-      - name: Determine deploy path
-        id: deploy-path
-        if: github.event_name != 'pull_request' && github.event_name != 'release'
-        run: |
-          if [[ "$GITHUB_REF" == refs/tags/* ]]; then
-            echo "path=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
-          elif [[ "$GITHUB_REF" == refs/heads/main ]]; then
-            echo "path=." >> $GITHUB_OUTPUT
-          elif [[ "$GITHUB_REF" == refs/heads/develop ]]; then
-            echo "path=develop" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Deploy to GitHub Pages
-        if: github.event_name != 'pull_request' && github.event_name != 'release'
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          destination_dir: ${{ steps.deploy-path.outputs.path }}
-          keep_files: true
+#      - name: Determine deploy path
+#        id: deploy-path
+#        if: github.event_name != 'pull_request' && github.event_name != 'release'
+#        run: |
+#          if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+#            echo "path=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+#          elif [[ "$GITHUB_REF" == refs/heads/main ]]; then
+#            echo "path=." >> $GITHUB_OUTPUT
+#          elif [[ "$GITHUB_REF" == refs/heads/develop ]]; then
+#            echo "path=develop" >> $GITHUB_OUTPUT
+#          fi
+#
+#      - name: Deploy to GitHub Pages
+#        if: github.event_name != 'pull_request' && github.event_name != 'release'
+#        uses: peaceiris/actions-gh-pages@v4
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          publish_dir: ./dist
+#          destination_dir: ${{ steps.deploy-path.outputs.path }}
+#          keep_files: true
