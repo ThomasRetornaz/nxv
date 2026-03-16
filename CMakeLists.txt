@@ -65,9 +65,9 @@ add_subdirectory(configured_files)
 add_subdirectory(src)
 
 # Create unified web deployment directory (for WASM builds)
-if(EMSCRIPTEN)
-  nxv_create_web_dist()
-endif()
+#if(EMSCRIPTEN)
+#  nxv_create_web_dist()
+#endif()
 
 # Don't even look at tests if we're not top level
 if(NOT PROJECT_IS_TOP_LEVEL)
@@ -78,7 +78,7 @@ endif()
 include(CTest)
 
 if(BUILD_TESTING)
-  message(AUTHOR_WARNING "Building Tests. Be sure to check out test/constexpr_tests.cpp for constexpr testing")
+  # message(AUTHOR_WARNING "Building Tests. Be sure to check out test/constexpr_tests.cpp for constexpr testing")
   add_subdirectory(test)
 endif()
 
